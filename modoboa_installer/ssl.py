@@ -75,14 +75,11 @@ class LetsEncryptCertificate(CertificateBackend):
         utils.printcolor(
             "Generating new certificate using letsencrypt", utils.YELLOW)
         utils.exec_cmd(
-            "wget https://dl.eff.org/certbot-auto; chmod a+x certbot-auto",
-            cwd="/opt")
-        utils.exec_cmd(
-            "/opt/certbot-auto certonly -n --standalone -d {} "
+            "/usr/bin/certbot certonly -n --standalone -d {} "
             "-m {} --agree-tos".format(
                 self.hostname, self.config.get("letsencrypt", "email")))
         with open("/etc/cron.d/letsencrypt", "w") as fp:
-            fp.write("0 */12 * * * root /opt/certbot-auto renew "
+            fp.write("0 */12 * * * root /usr/bin/certbot renew "
                      "--quiet --no-self-upgrade --force-renewal\n")
         cfg_file = "/etc/letsencrypt/renewal/{}.conf".format(self.hostname)
         pattern = "s/authenticator = standalone/authenticator = nginx/"
