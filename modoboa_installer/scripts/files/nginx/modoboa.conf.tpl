@@ -12,7 +12,7 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name %hostname;
+    server_name *.%domain;
     root %app_instance_path;
 
     ssl_certificate %tls_cert_file;
